@@ -50,7 +50,7 @@ export default class UserStore {
         }
 
         try {
-            const password_digest = bcrypt.hashSync(
+            const password_hashed = bcrypt.hashSync(
                 user.password + (pepper as string),
                 Number(saltRounds)
             );
@@ -62,7 +62,7 @@ export default class UserStore {
                 user.first_name,
                 user.last_name,
                 user.username,
-                password_digest,
+                password_hashed,
             ]);
 
             return result.rows[0];
@@ -81,7 +81,7 @@ export default class UserStore {
 
             if (result.rows.length) {
                 const user = result.rows[0];
-                if (bcrypt.compareSync(password + pepper, user.password_digest)) {
+                if (bcrypt.compareSync(password + pepper, user.password_hashed)) {
                     return user;
                 }
             }
