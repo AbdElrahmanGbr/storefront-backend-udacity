@@ -2,6 +2,10 @@
 
 This project is the second project in Udacity Full-Stack Advanced JS Nanodegree.
 
+## Requirements
+
+[REQUIREMENTS.md](REQUIREMENTS.md)
+
 Build a JavaScript API based on a requirements given by the stakeholders. You will architect the database, tables, and columns to fulfill the requirements. Create a RESTful API to be accessible to the frontend developer. You will also have written test, secured user information with encryption, and provide tokens for integration into the frontend.
 ## Built With
 ![TypeScript](https://img.shields.io/static/v1?style=for-the-badge&message=TypeScript&color=3178C6&logo=TypeScript&logoColor=FFFFFF&label=)
@@ -61,17 +65,67 @@ $ npm run test
 
 ## Environement Variables
 ```
-PG_HOST=127.0.0.1
-PG_DB=storefront
-PG_DB_TEST=storefront_test
-PG_USER=storefront_user
-PG_PASSWORD=1234
-PG_PORT=5432
-BCRYPT_PASSWORD=any-password-to-remember
+PG_HOST=127.0.0.1 # Postgres host
+PG_DB=store_front # Postgres database
+PG_DB_TEST=store_front_test # Postgres test database
+PG_USER=store_front_user # Postgres user
+PG_PASSWORD=password123 # Postgres database password
+PG_PORT=5432 # Postgres port
+BCRYPT_PASSWORD=any-strong-password
 SALT_ROUNDS=10
-TOKEN_SECRET=do-not-share-me
-PORT=4040
+TOKEN_SECRET=keep-it-secret-keep-it-safe # JWT
+
+PORT=4040 # app running port
 ```
+
+## Main Steps to Run
+### clone the project
+```bash
+git clone https://github.com/AbdElrahmanGbr/storefront-backend-udacity.git
+```
+## Go to the project directory
+cd storefront-backend-udacity
+
+## Install dependencies
+npm i (or) yarn
+
+## Setup Database
+```
+  CREATE USER store_front_user WITH PASSWORD 'password';
+
+  CREATE DATABASE store_front
+
+  CREATE DATABASE store_front_test
+
+  GRANT ALL ON SCHEMA public TO store_front_user;
+
+  \c store_front
+
+  GRANT ALL PRIVILEGES ON DATABASE store_front TO store_front_user;
+
+  GRANT ALL ON SCHEMA public TO store_front_user; <-- just in case
+
+  \c store_front_test
+
+  GRANT ALL PRIVILEGES ON DATABASE store_front_test TO store_front_user;
+
+  GRANT ALL ON SCHEMA public TO store_front_user; <-- just in case
+```
+
+## Run The Migrations
+```bash
+npm run migrate:up
+```
+## Start the Server
+```bash
+npm run watch
+```
+
+## Running Tests
+```bash
+npm run test
+```
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
