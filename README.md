@@ -49,7 +49,7 @@ npm run test
 
 ## Usage
 ```
-  1. create database called store
+  1. create database called store_front, and another one called store_front_test
   2. create environment variables (".env") and add the information required from (".env-template")
   3. run the following commands:
 ```
@@ -60,7 +60,7 @@ $ cd storefront-backend-udacity;
 $ npm install
 $ npx db-migrate up
 $ npm run watch
-$ npm run test
+$ nm run test
 ```
 
 ## Environement Variables
