@@ -38,12 +38,6 @@ The company stakeholders want to create an online storefront to showcase their g
 | /orders/:id/products | POST   |  ✔️   | Add a product to an order    |
 | /orders/:id/products | GET    |  ✔️   | Get all products in an order |
 
-### Dashboard Endpoint
-
-| Endpoint                    | Verb | Auth? | Description                     |
-| --------------------------- | ---- | :---: | ------------------------------- |
-| /dashboard/top-five-popular | GET  |  ✔️   | Get top 5 most popular products |
-
 ## Models
 
 ### User
