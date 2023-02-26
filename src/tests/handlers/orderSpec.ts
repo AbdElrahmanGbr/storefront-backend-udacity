@@ -31,7 +31,7 @@ describe("/orders route", () => {
 
     beforeEach(async () => {
         await query(
-            `INSERT INTO orders (id, user_id, order_status) VALUES (1, $1, 'pending')`,
+            `INSERT INTO orders (id, user_id, order_status) VALUES (1, $1, 'active')`,
             [authedUser.id]
         );
     });
@@ -56,7 +56,7 @@ describe("/orders route", () => {
             .set("Authorization", `Bearer ${token}`);
 
         expect(result.status).toEqual(200);
-        expect(result.body.User_ID).toEqual(authedUser.id);
+        expect(result.body.user_id).toEqual(authedUser.id);
     });
 
     it("POST /", async () => {
@@ -66,8 +66,8 @@ describe("/orders route", () => {
             .post("/orders")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                User_ID: authedUser.id,
-                order_status: "pending",
+                user_id: authedUser.id,
+                order_status: "active",
             });
 
         expect(result.status).toEqual(200);
@@ -79,11 +79,11 @@ describe("/orders route", () => {
             .put("/orders/1")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                order_status: "delievered",
+                order_status: "complete",
             });
 
         expect(result.status).toEqual(200);
-        expect(result.body.order_status).toEqual("delievered");
+        expect(result.body.order_status).toEqual("complete");
     });
 
     it("DELETE /:id", async () => {
@@ -103,7 +103,7 @@ describe("/orders route", () => {
             .post("/orders/1/products")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                product_id: 1,
+                productId: 1,
                 quantity: 2,
             });
 
@@ -134,12 +134,12 @@ describe("/orders route", () => {
             .set("Authorization", `Bearer ${token}`);
 
         expect(result.status).toEqual(200);
-        expect(result.body).toEqual({ id: 1, user_id: 1, order_status: "pending" });
+        expect(result.body).toEqual({ id: 1, user_id: 1, order_status: "active" });
     });
 
-    it("GET /delievered", async () => {
+    it("GET /complete", async () => {
         const result = await request(app)
-            .get("/orders/delievered")
+            .get("/orders/complete")
             .set("Authorization", `Bearer ${token}`);
 
         expect(result.status).toEqual(200);

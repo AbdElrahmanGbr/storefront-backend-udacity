@@ -45,7 +45,7 @@ describe("/products route", () => {
     it("GET /:id", async () => {
         const result = await request(app).get("/products/1");
         expect(result.status).toEqual(200);
-        expect(result.body.Product_Name).toEqual("Mango");
+        expect(result.body.product_name).toEqual("Mango");
     });
 
     it("POST /", async () => {
@@ -55,13 +55,13 @@ describe("/products route", () => {
             .post("/products")
             .set("Authorization", `Bearer ${token}`)
             .send({
-                Product_Name: "Apple",
-                Product_Price: 100.99,
-                Product_Category: "fruits",
+                product_name: "Apple",
+                product_price: 100.99,
+                product_category: "fruits",
             });
 
         expect(result.status).toEqual(201);
-        expect(result.body.Product_Name).toEqual("Apple");
+        expect(result.body.product_name).toEqual("Apple");
     });
 
     it("DELETE /:id", async () => {

@@ -25,7 +25,7 @@ describe("Order Model", () => {
 
     beforeEach(async () => {
         await query(
-            `INSERT INTO orders (id, user_id, order_status) VALUES (1, $1, 'pending')`,
+            `INSERT INTO orders (id, user_id, order_status) VALUES (1, $1, 'active')`,
             [userId]
         );
     });
@@ -40,7 +40,7 @@ describe("Order Model", () => {
             {
                 id: 1,
                 user_id: 1,
-                order_status: "pending",
+                order_status: "active",
             },
         ]);
     });
@@ -50,7 +50,7 @@ describe("Order Model", () => {
         expect(result).toEqual({
             id: 1,
             user_id: 1,
-            order_status: "pending",
+            order_status: "active",
         });
     });
 
@@ -59,10 +59,10 @@ describe("Order Model", () => {
 
         const result = await store.create({
             user_id: 1,
-            order_status: "pending",
+            order_status: "active",
         });
         expect(result.user_id).toEqual(1);
-        expect(result.order_status).toEqual("pending");
+        expect(result.order_status).toEqual("active");
     });
 
     it("delete method should remove the order", async () => {
@@ -72,13 +72,13 @@ describe("Order Model", () => {
     });
 
     it("update method should update the order order_status", async () => {
-        await store.update(1, "delievered");
+        await store.update(1, "complete");
 
         const result = await store.show(1);
         expect(result).toEqual({
             id: 1,
             user_id: 1,
-            order_status: "delievered",
+            order_status: "complete",
         });
     });
 
@@ -99,12 +99,12 @@ describe("Order Model", () => {
         });
     });
 
-    it("addProduct method should throw error if order is not pending", async () => {
+    it("addProduct method should throw error if order is not active", async () => {
         await query(`DELETE FROM products`);
         await query(
             `INSERT INTO products (id, product_name, product_price, product_category) VALUES (1, 'test', 1, 'test')`
         );
-        await query(`UPDATE orders SET order_status = 'delievered' WHERE id = 1`);
+        await query(`UPDATE orders SET order_status = 'complete' WHERE id = 1`);
 
         expectAsync(store.addProduct(1, 1, 1)).toBeRejected();
     });
@@ -114,19 +114,19 @@ describe("Order Model", () => {
         expect(result).toEqual({
             id: 1,
             user_id: 1,
-            order_status: "pending",
+            order_status: "active",
         });
     });
 
     it("completedOrders method should return the completed orders", async () => {
-        await query(`UPDATE orders SET order_status = 'delievered' WHERE id = 1`);
+        await query(`UPDATE orders SET order_status = 'complete' WHERE id = 1`);
 
         const result = await store.completedOrders(userId);
         expect(result).toEqual([
             {
                 id: 1,
                 user_id: 1,
-                order_status: "delievered",
+                order_status: "complete",
             },
         ]);
     });

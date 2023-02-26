@@ -36,7 +36,7 @@ const update = async (req: Request, res: Response) => {
     try {
         const product = await store.update(
             parseInt(req.params.id),
-            req.body.status
+            req.body.order_status
         );
         res.json(product);
     } catch (error) {

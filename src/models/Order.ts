@@ -3,7 +3,7 @@ import { Product } from "./Product";
 
 type Order = {
     user_id: number;
-    order_status: "pending" | "delievered";
+    order_status: "active" | "complete";
 };
 
 type OrderReturnType = Order & {
@@ -82,7 +82,7 @@ export class OrderStore {
 
             const order = result.rows[0];
 
-            if (order.order_status !== "pending") {
+            if (order.order_status !== "active") {
                 throw new Error(
                     `Could not add product ${productId} to order ${orderId} because order order_status is ${order.order_status}`
                 );
@@ -116,7 +116,7 @@ export class OrderStore {
     currentOrder = async (userId: number): Promise<OrderReturnType> => {
         try {
             const sql = `SELECT * FROM orders WHERE user_id=($1) AND order_status=($2) ORDER BY id DESC LIMIT 1`;
-            const result = await query(sql, [userId, "pending"]);
+            const result = await query(sql, [userId, "active"]);
             return result.rows[0];
         } catch (error) {
             throw new Error(`Unable to fetch current order: ${error}`);
@@ -126,7 +126,7 @@ export class OrderStore {
     completedOrders = async (userId: number): Promise<OrderReturnType[]> => {
         try {
             const sql = `SELECT * FROM orders WHERE user_id=($1) AND order_status=($2)`;
-            const result = await query(sql, [userId, "delievered"]);
+            const result = await query(sql, [userId, "complete"]);
             return result.rows;
         } catch (error) {
             throw new Error(`Unable to fetch completed orders: ${error}`);
